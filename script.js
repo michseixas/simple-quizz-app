@@ -139,6 +139,7 @@ function selectAnswer(e){
     const isCorrect = selectedBtn.dataset.correct === "true";
     if(isCorrect){
         selectedBtn.classList.add("correct");
+        score++;
     }else{
         selectedBtn.classList.add("incorrect");
     }
@@ -147,9 +148,34 @@ function selectAnswer(e){
             button.classList.add("correct");
         }
         button.disabled = true;//Disabling all buttons prevents the user from changing their answer after one is selected.
-    });
+    }); 
     nextButton.style.display = "block";//makes the “Next” button visible by changing its display property to block.
 }
+
+function showScore(){
+    resetState();
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
+    nextButton.innerHTML = "Play again";
+    nextButton.style.display = "block";
+}
+
+function handleNextButton(){
+    currentQuestionIndex++;
+    if(currentQuestionIndex < questions.length){
+        showQuestion();
+    }else{
+        showScore();
+    }
+}
+
+
+nextButton.addEventListener("click", () =>{
+    if(currentQuestionIndex < questions.length){ //if you've not reached the end of the number of questions, handle next button.
+        handleNextButton();
+    }else{
+        startQuiz();
+    }
+})
 
 
 startQuiz();
